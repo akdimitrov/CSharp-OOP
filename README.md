@@ -1,2 +1,2 @@
 # CSharp-OOP
-C# OOP Module - SoftUni Problems
+C# OOP Module - SoftUni Problem Solutions
