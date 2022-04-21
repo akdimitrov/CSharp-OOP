@@ -6,8 +6,8 @@
     {
         string Label { get; }
 
-        decimal Price { get; } 
+        decimal Price { get; }
 
-        int Quantity { get;}
+        int Quantity { get; }
     }
 }
