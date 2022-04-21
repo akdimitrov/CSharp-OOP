@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace Skeleton.Tests
+namespace AxeAndDummy.Tests
 {
     [TestFixture]
     public class AxeTests
