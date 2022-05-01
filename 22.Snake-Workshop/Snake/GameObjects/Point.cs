@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Snake.GameObjects
+namespace SnakeGame.GameObjects
 {
     public class Point
     {

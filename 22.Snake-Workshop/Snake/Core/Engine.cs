@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Threading;
-using Snake.Enums;
-using Snake.GameObjects;
+using SnakeGame.Enums;
+using SnakeGame.GameObjects;
 
-namespace Snake.Core
+namespace SnakeGame.Core
 {
     public class Engine
     {
         private readonly Wall wall;
-        private readonly GameObjects.Snake snake;
-        private double sleepTime;
+        private readonly Snake snake;
         private readonly Point[] pointsOfDirection;
+        private double sleepTime;
         private Direction direction;
+        private readonly int leftX;
+        private int topY;
 
-        public Engine(Wall wall, GameObjects.Snake snake)
+        public Engine(Wall wall, Snake snake)
         {
             this.wall = wall;
             this.snake = snake;
             this.sleepTime = 100;
             this.pointsOfDirection = new Point[4];
+            this.leftX = this.wall.LeftX + 1;
+            this.topY = 3;
         }
 
         public void Run()
@@ -40,6 +44,9 @@ namespace Snake.Core
 
                 sleepTime -= 0.01;
                 Thread.Sleep((int)sleepTime);
+
+                Console.SetCursorPosition(this.leftX, this.topY);
+                Console.WriteLine($"Your score is: {snake.Score}");
             }
         }
 
@@ -89,13 +96,8 @@ namespace Snake.Core
 
         private void AskUserForRestart()
         {
-            int leftX = this.wall.LeftX + 1;
-            int topY = 3;
-
-            Console.SetCursorPosition(leftX, topY);
-            Console.WriteLine($"Your score is: {snake.Score}");
+            Console.SetCursorPosition(this.leftX, ++this.topY);
             Console.Write("Would you like to continue? y/n ");
-
             string input = Console.ReadLine();
 
             if (input == "y")
@@ -111,8 +113,10 @@ namespace Snake.Core
 
         private void StopGame()
         {
-            Console.SetCursorPosition(20, 10);
-            Console.Write($"Game over! Your score is: {snake.Score}");
+            Console.SetCursorPosition(this.leftX, ++this.topY);
+            Console.Write($"Game over!");
+            Console.SetCursorPosition(this.leftX, this.wall.TopY);
+
             Environment.Exit(0);
         }
     }

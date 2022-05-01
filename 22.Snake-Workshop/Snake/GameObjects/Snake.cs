@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Snake.GameObjects
+namespace SnakeGame.GameObjects
 {
     public class Snake
     {
         private const char snakeSymbol = '\u25CF';
         private readonly Queue<Point> snakeElements;
-        private int foodIndex;
         private readonly Food[] food;
         private readonly Wall wall;
+        private int foodIndex;
         private int nextLeftX;
         private int nextTopY;
         private int score;
@@ -20,30 +20,20 @@ namespace Snake.GameObjects
             this.wall = wall;
             this.snakeElements = new Queue<Point>();
             this.food = new Food[3];
-            this.foodIndex = RandomFoodNumber;
             this.GetFoods();
             this.CreateSnake();
-            this.foodIndex = this.RandomFoodNumber;
-            this.food[foodIndex].SetRandomPosition(this.snakeElements);
         }
 
         public int Score => score;
 
-        private int RandomFoodNumber => new Random().Next(0, this.food.Length);
-
-        public bool IsPointOfWall(Point snake)
-        {
-            return snake.TopY == 0 || snake.LeftX == 0 || snake.LeftX == this.wall.LeftX - 1 || snake.TopY == this.wall.TopY;
-        }
+        protected int RandomFoodNumber => new Random().Next(0, this.food.Length);
 
         public bool IsMoving(Point direction)
         {
             Point currentSnakeHead = this.snakeElements.Last();
             GetNextPoint(direction, currentSnakeHead);
 
-            bool isPointOfSnake = this.snakeElements.Any(x => x.LeftX == nextLeftX && x.TopY == nextTopY);
-
-            if (isPointOfSnake)
+            if (IsPointOfSnake())
             {
                 return false;
             }
@@ -90,6 +80,9 @@ namespace Snake.GameObjects
             {
                 this.snakeElements.Enqueue(new Point(2, topY));
             }
+
+            this.foodIndex = this.RandomFoodNumber;
+            this.food[foodIndex].SetRandomPosition(this.snakeElements);
         }
 
         private void GetFoods()
@@ -103,6 +96,16 @@ namespace Snake.GameObjects
         {
             this.nextLeftX = snakeHead.LeftX + direction.LeftX;
             this.nextTopY = snakeHead.TopY + direction.TopY;
+        }
+
+        private bool IsPointOfWall(Point snake)
+        {
+            return snake.TopY == 0 || snake.LeftX == 0 || snake.LeftX == this.wall.LeftX - 1 || snake.TopY == this.wall.TopY;
+        }
+
+        private bool IsPointOfSnake()
+        {
+            return this.snakeElements.Any(x => x.LeftX == nextLeftX && x.TopY == nextTopY);
         }
     }
 }

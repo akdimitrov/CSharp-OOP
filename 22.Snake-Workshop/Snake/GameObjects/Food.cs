@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Snake.GameObjects
+namespace SnakeGame.GameObjects
 {
     public abstract class Food : Point
     {

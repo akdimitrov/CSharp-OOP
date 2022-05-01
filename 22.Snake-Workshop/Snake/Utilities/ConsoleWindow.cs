@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Snake.Utilities
+namespace SnakeGame.Utilities
 {
     public static class ConsoleWindow
     {

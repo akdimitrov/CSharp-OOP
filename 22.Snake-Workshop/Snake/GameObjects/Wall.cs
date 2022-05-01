@@ -1,4 +1,4 @@
-﻿namespace Snake.GameObjects
+﻿namespace SnakeGame.GameObjects
 {
     public class Wall : Point
     {
