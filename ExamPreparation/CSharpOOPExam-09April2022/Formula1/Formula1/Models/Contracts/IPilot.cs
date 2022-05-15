@@ -6,7 +6,7 @@
 
         public IFormulaOneCar Car { get; }
 
-        public int NumberOfWins { get;}
+        public int NumberOfWins { get; }
 
         public bool CanRace { get; }
 
