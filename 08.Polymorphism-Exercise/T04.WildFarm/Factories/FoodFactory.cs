@@ -1,11 +1,13 @@
-﻿using T04.WildFarm.Contracts;
+﻿using T04.WildFarm.Exceptions;
+using T04.WildFarm.Factories.Contratcts;
+using T04.WildFarm.Models.Contracts;
 using T04.WildFarm.Models.Foods;
 
-namespace T04.WildFarm.Models.Factories
+namespace T04.WildFarm.Factories
 {
-    public static class FoodFactory
+    public class FoodFactory : IFoodFactory
     {
-        public static IFood Create(string[] foodInfo)
+        public IFood Create(string[] foodInfo)
         {
             string foodType = foodInfo[0];
             int foodQuantity = int.Parse(foodInfo[1]);
@@ -26,6 +28,10 @@ namespace T04.WildFarm.Models.Factories
             else if (foodType == "Seeds")
             {
                 food = new Seeds(foodQuantity);
+            }
+            else
+            {
+                throw new InvalidFactoryTypeException();
             }
 
             return food;

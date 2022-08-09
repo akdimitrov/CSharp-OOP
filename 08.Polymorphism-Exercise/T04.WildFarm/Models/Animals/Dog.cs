@@ -1,33 +1,25 @@
-﻿using T04.WildFarm.Contracts;
-using T04.WildFarm.Exceptions;
+﻿using System;
+using System.Collections.Generic;
 using T04.WildFarm.Models.Foods;
 
 namespace T04.WildFarm.Models.Animals
 {
     public class Dog : Mammal
     {
-        private const double Modifier = 0.40;
+        private const double DogWeightMultiplier = 0.40;
 
         public Dog(string name, double weight, string livingRegion)
             : base(name, weight, livingRegion) { }
 
-        public override void Eat(IFood food)
-        {
-            if (food is Meat)
-            {
-                BaseEat(Modifier, food.Quantity);
-            }
-            else
-            {
-                InvalidOperations.ThrowInvalidFoodException(GetType().Name, food.GetType().Name);
-            }
-        }
+        protected override IReadOnlyCollection<Type> PreferredFoods => new List<Type> { typeof(Meat) }.AsReadOnly();
+
+        protected override double WeightMultiplier => DogWeightMultiplier;
 
         public override string ProduceSound() => "Woof!";
 
         public override string ToString()
         {
-            return $"{GetType().Name} [{Name}, {Weight}, {LivingRegion}, {FoodEaten}]";
+            return base.ToString() + $"{Weight}, {LivingRegion}, {FoodEaten}]";
         }
     }
 }

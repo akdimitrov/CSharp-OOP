@@ -1,4 +1,4 @@
-﻿using T04.WildFarm.Contracts;
+﻿using T04.WildFarm.Models.Contracts;
 
 namespace T04.WildFarm.Models.Foods
 {

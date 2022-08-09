@@ -1,4 +1,8 @@
-﻿using T04.WildFarm.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using T04.WildFarm.Exceptions;
+using T04.WildFarm.Models.Contracts;
 
 namespace T04.WildFarm.Models.Animals
 {
@@ -16,14 +20,26 @@ namespace T04.WildFarm.Models.Animals
 
         public int FoodEaten { get; protected set; }
 
-        public abstract void Eat(IFood food);
+        protected abstract IReadOnlyCollection<Type> PreferredFoods { get; }
+
+        protected abstract double WeightMultiplier { get; }
+
+        public void Eat(IFood food)
+        {
+            if (!PreferredFoods.Contains(food.GetType()))
+            {
+                throw new FoodNotPrefferedException(string.Format(ExceptionMessages.FoodNotPreffered, GetType().Name, food.GetType().Name));
+            }
+
+            Weight += food.Quantity * WeightMultiplier;
+            FoodEaten += food.Quantity;
+        }
 
         public abstract string ProduceSound();
 
-        protected void BaseEat(double modifier, int quantity)
+        public override string ToString()
         {
-            Weight += modifier * quantity;
-            FoodEaten += quantity;
+            return $"{GetType().Name} [{Name}, ";
         }
     }
 }

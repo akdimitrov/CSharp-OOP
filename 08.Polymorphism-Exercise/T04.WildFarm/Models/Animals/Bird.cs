@@ -1,4 +1,4 @@
-﻿using T04.WildFarm.Contracts;
+﻿using T04.WildFarm.Models.Contracts;
 
 namespace T04.WildFarm.Models.Animals
 {
@@ -14,7 +14,7 @@ namespace T04.WildFarm.Models.Animals
 
         public override string ToString()
         {
-            return $"{GetType().Name} [{Name}, {WingSize}, {Weight}, {FoodEaten}]";
+            return base.ToString() + $"{WingSize}, {Weight}, {FoodEaten}]";
         }
     }
 }

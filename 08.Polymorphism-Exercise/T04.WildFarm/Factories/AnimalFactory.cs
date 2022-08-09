@@ -1,11 +1,13 @@
-﻿using T04.WildFarm.Contracts;
+﻿using T04.WildFarm.Exceptions;
+using T04.WildFarm.Factories.Contratcts;
 using T04.WildFarm.Models.Animals;
+using T04.WildFarm.Models.Contracts;
 
-namespace T04.WildFarm.Models.Factories
+namespace T04.WildFarm.Factories
 {
-    public static class AnimalFactory
+    public class AnimalFactory : IAnimalFactory
     {
-        public static IAnimal Create(string[] animalInfo)
+        public IAnimal Create(string[] animalInfo)
         {
             string animalType = animalInfo[0];
             string name = animalInfo[1];
@@ -35,6 +37,10 @@ namespace T04.WildFarm.Models.Factories
             else if (animalType == "Hen")
             {
                 animal = new Hen(name, weight, double.Parse(animalInfo[3]));
+            }
+            else
+            {
+                throw new InvalidFactoryTypeException();
             }
 
             return animal;

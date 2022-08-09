@@ -1,38 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using T04.WildFarm.Contracts;
-using T04.WildFarm.Models.Factories;
+using T04.WildFarm.Exceptions;
+using T04.WildFarm.Factories.Contratcts;
+using T04.WildFarm.IO.Contracts;
+using T04.WildFarm.Models.Contracts;
 
 namespace T04.WildFarm.Core
 {
-    public class Engine
+    public class Engine : IEngine
     {
+        private readonly IAnimalFactory animalFactory;
+        private readonly IFoodFactory foodFactory;
+        private readonly IReader reader;
+        private readonly IWriter writer;
+
+        private readonly ICollection<IAnimal> animals;
+
+        public Engine(IAnimalFactory animalFactory, IFoodFactory foodFactory, IReader reader, IWriter writer)
+        {
+            this.animalFactory = animalFactory;
+            this.foodFactory = foodFactory;
+            this.reader = reader;
+            this.writer = writer;
+            animals = new List<IAnimal>();
+        }
+
         public void Run()
         {
-            List<IAnimal> animals = new List<IAnimal>();
-            string input = Console.ReadLine();
+            string input = reader.ReadLine();
             while (input != "End")
             {
                 try
                 {
                     string[] animalInfo = input.Split();
-                    string[] foodInfo = Console.ReadLine().Split();
+                    string[] foodInfo = reader.ReadLine().Split();
 
-                    IAnimal animal = AnimalFactory.Create(animalInfo);
-                    IFood food = FoodFactory.Create(foodInfo);
-                    Console.WriteLine(animal.ProduceSound());
+                    IAnimal animal = animalFactory.Create(animalInfo);
+                    IFood food = foodFactory.Create(foodInfo);
+                    writer.WriteLine(animal.ProduceSound());
                     animals.Add(animal);
                     animal.Eat(food);
                 }
-                catch (Exception e)
+                catch (InvalidFactoryTypeException ifte)
                 {
-                    Console.WriteLine(e.Message);
+                    writer.WriteLine(ifte.Message);
+                }
+                catch (FoodNotPrefferedException fnpe)
+                {
+                    writer.WriteLine(fnpe.Message);
+                }
+                catch (InvalidOperationException ioe)
+                {
+                    writer.WriteLine(ioe.Message);
                 }
 
-                input = Console.ReadLine();
+                input = reader.ReadLine();
             }
 
-            animals.ForEach(x => Console.WriteLine(x));
+            foreach (var animal in animals)
+            {
+                writer.WriteLine(animal.ToString());
+            }
         }
     }
 }
