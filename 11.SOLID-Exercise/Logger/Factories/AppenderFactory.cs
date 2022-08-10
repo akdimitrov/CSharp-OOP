@@ -8,7 +8,7 @@
 
     public static class AppenderFactory
     {
-        public static IAppender CreateAppender(ILayout layout, string type, ReportLevel reportLevel = ReportLevel.Info)
+        public static IAppender CreateAppender(ILayout layout, string type, ReportLevel reportLevel)
         {
             IAppender appender = type switch
             {

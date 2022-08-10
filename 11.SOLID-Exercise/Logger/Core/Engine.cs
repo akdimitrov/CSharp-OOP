@@ -2,14 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using Appenders;
     using Factories;
     using Layouts;
     using Loggers;
     using ReportLevels;
 
-    public class Engine
+    public class Engine : IEngine
     {
         public void Run()
         {
@@ -38,8 +37,7 @@
             {
                 string[] messageInfo = command.Split('|');
                 ReportLevel reportLevel = Enum.Parse<ReportLevel>(messageInfo[0], true);
-                DateTime dateTime = DateTime.Parse(messageInfo[1], CultureInfo.InvariantCulture);
-                string message = messageInfo[2];
+                string message = messageInfo[1];
 
                 switch (reportLevel)
                 {

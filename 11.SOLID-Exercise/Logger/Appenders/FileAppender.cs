@@ -8,11 +8,15 @@
 
     public class FileAppender : Appender
     {
-        private const string Path = "../../../log.txt";
+        private readonly string filePath;
         private readonly ILogFile logFile;
 
-        public FileAppender(ILayout layout, ILogFile logFile) : base(layout)
-           => this.logFile = logFile;
+        public FileAppender(ILayout layout, ILogFile logFile, string filePath = "../../../log.txt")
+            : base(layout)
+        {
+            this.logFile = logFile;
+            this.filePath = filePath;
+        }
 
         public override void Append(DateTime dateTime, ReportLevel reportLevel, string message)
         {
@@ -21,7 +25,7 @@
             this.logFile.Write(ouput);
             this.AppendedMessages++;
 
-            File.AppendAllText(Path, ouput);
+            File.AppendAllText(filePath, ouput);
         }
 
         public override string ToString()

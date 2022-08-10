@@ -1,10 +1,11 @@
 ﻿namespace Logger.Loggers
 {
+    using System.Collections.Generic;
     using Appenders;
 
     public interface ILogger
     {
-        IAppender[] Appenders { get; }
+        IReadOnlyCollection<IAppender> Appenders { get; }
 
         void Info(string message);
 

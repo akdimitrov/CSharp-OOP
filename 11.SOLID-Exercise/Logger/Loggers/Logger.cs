@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Logger.Appenders;
 using Logger.ReportLevels;
 namespace Logger.Loggers
@@ -8,7 +9,7 @@ namespace Logger.Loggers
         public Logger(params IAppender[] appenders)
            => Appenders = appenders;
 
-        public IAppender[] Appenders { get; }
+        public IReadOnlyCollection<IAppender> Appenders { get; }
 
         public void Info(string message)
           => Log(ReportLevel.Info, message);
@@ -31,7 +32,7 @@ namespace Logger.Loggers
             {
                 if (reportLevel >= appender.ReportLevel)
                 {
-                    appender.Append(DateTime.Now, reportLevel, message);
+                    appender.Append(DateTime.UtcNow, reportLevel, message);
                 }
             }
         }
